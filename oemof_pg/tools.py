@@ -259,13 +259,13 @@ def tz_from_geom(connection, geometry):
     else:
         coords = geometry
     sql = """
-        SELECT tzid FROM oemof_test.tz_world
+        SELECT tzid FROM oemof.tz_world
         WHERE st_contains(geom, ST_PointFromText('{wkt}', 4326));
         """.format(wkt=coords.wkt)
 
     if not connection.execute(sql).fetchone():
         sql = """
-            SELECT tzid FROM oemof_test.tz_world
+            SELECT tzid FROM oemof.tz_world
             ORDER BY ST_PointFromText('{wkt}', 4326) <#> geom LIMIT 1;
             """.format(wkt=coords.wkt)
     return connection.execute(sql).fetchone()[0]
